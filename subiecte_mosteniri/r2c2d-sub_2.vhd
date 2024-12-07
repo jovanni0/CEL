@@ -18,6 +18,7 @@ begin
         if rising_edge(clk) then
             if reset = '0' then
                 current_state <= e;
+                z <= '0';   -- make sure u reset the output too
             else
                 current_state <= next_state;
             end if;
@@ -84,10 +85,10 @@ begin
     process
     begin
         clk_tb <= '1';
-        rst_tb <= '1'; -- reset to E
+        rst_tb <= '0'; -- reset to E
         wait 2ns;
         clk_tb <= '0';
-        rst_tb <= '0';
+        rst_tb <= '1';
         wait 2ns;
 
         clk_tb <= '1';
@@ -102,10 +103,10 @@ begin
         wait 2ns;
 
         clk_tb <= '1';
-        rst_tb <= '1'; -- go to E
+        rst_tb <= '0'; -- go to E
         wait 2ns;
         clk_tb <= '0';
-        rst_tb <= '0';
+        rst_tb <= '1';
         wait;          -- stop
     end process;
 end architecture

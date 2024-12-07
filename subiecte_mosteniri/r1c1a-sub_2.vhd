@@ -16,6 +16,7 @@ begin
     begin
         if rst = '1' then
             current_state <= a;
+            m <= '0'; -- cat e outputul pe A, fiindca nu se poate ajunge la el
         elsif falling_edge(clk) then
             current_state <= next_state;
         end if;

@@ -12,7 +12,7 @@ end entity;
 architecture arc_nr of nr is
 begin
     process(clk, r)
-        variable contor: std_logic_vector(3 downto 0) := 0b; --- ??? binary literal
+        variable contor: std_logic_vector(3 downto 0) := 0b;
     begin
         if r = '1' then
             contor := 0b;
@@ -100,7 +100,7 @@ architecture arc_hard of hard is
             eq: out std_logic);
     end component;
 
-    variable reg_out, nr_out, comp_out: std_logic;
+    signal reg_out, nr_out, comp_out: std_logic;
 begin
     registru: reg port map(d => s(3 downto 0), clk => s(4), output => reg_out);
     numarator: nr port map(clk => s(4), r => comp_out, output => nr_out);
