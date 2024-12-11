@@ -15,8 +15,8 @@ begin
     register_process: process(clk, rst)
     begin
         if rst = '1' then
-            current_state <= a;
-            m <= '0'; -- seteaza output-ul
+            current_state <= a; -- 3 bistabile
+            m <= '0';           -- 1 bistabil
         elsif falling_edge(clk) then
             current_state <= next_state;
         end if;
@@ -27,8 +27,8 @@ begin
         case current_state is
             when a =>
                 if s = '0' then 
-                    next_state <= b;
-                    m <= '1';
+                    next_state <= b; -- 3 bistabile
+                    m <= '1';        -- 1 bistabil
                 elsif s = '1' then
                     next_state <= c;
                     m <= '0';
@@ -65,6 +65,7 @@ begin
     end process;
 end architecture;
 
+-- total: 8 bistabile
 -------------------------------------------------------
 library IEEE;
     use IEEE.std_logic_1164.all;
