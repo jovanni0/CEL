@@ -29,7 +29,6 @@ end architecture;
 ----------------------------------------------------------------------
 library IEEE;
     use IEEE.std_logic_1164.all;
-    use IEEE.std_logic_unsigned.all;
 
 
 entity comp is
@@ -43,9 +42,9 @@ begin
     process(a, b)
     begin
         if a = b then
-            eq <= "1";
+            eq <= '1';
         else
-            eq <= "0";
+            eq <= '0';
         end if;
     end process;
 end architecture;

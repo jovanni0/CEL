@@ -42,7 +42,7 @@ begin
                         position <= position - 1b;
                     else
                         current_state <= state_3;
-                    end of;
+                    end if;
             end case;
 
             stei <= position;

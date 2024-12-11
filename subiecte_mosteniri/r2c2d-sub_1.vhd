@@ -12,16 +12,16 @@ end entity;
 architecture arc_nr of nr is
 begin
     process(clk, r)
-        variable contor: std_logic_vector(3 downto 0) := 0b;
+        variable contor: std_logic_vector(3 downto 0) := "0000";
     begin
         if r = '1' then
-            contor := 0b;
+            contor := "0000";
         elsif falling_edge(clk) then
             contor := contor + '1';
         end if;
 
         output <= contor;
-    end process
+    end process;
 end architecture;
 
 ------------------------------------------------------------------
@@ -62,9 +62,9 @@ end entity;
 
 architecture arc_comp of comp is
 begin
-    process(a, b)
+    process(x, y)
     begin
-        if a = b then
+        if x = y then
             eq <= '1';
         else
             eq <= '0';
@@ -100,7 +100,8 @@ architecture arc_hard of hard is
             eq: out std_logic);
     end component;
 
-    signal reg_out, nr_out, comp_out: std_logic;
+    signal reg_out, nr_out: std_logic_vector(3 downto 0);
+    signal comp_out: std_logic;
 begin
     registru: reg port map(d => s(3 downto 0), clk => s(4), output => reg_out);
     numarator: nr port map(clk => s(4), r => comp_out, output => nr_out);

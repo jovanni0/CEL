@@ -16,7 +16,7 @@ begin
     begin
         if rst = '1' then
             current_state <= a;
-            m <= '0'; -- cat e outputul pe A, fiindca nu se poate ajunge la el
+            m <= '0'; -- seteaza output-ul
         elsif falling_edge(clk) then
             current_state <= next_state;
         end if;
@@ -38,7 +38,7 @@ begin
                     next_state <= d;
                     m <= '1';
                 elsif s = '1' then
-                    next_state = c;
+                    next_state <= c;
                     m <= '0';
                 end if;
             when c =>
@@ -63,7 +63,7 @@ begin
                 end if;
         end case;
     end process;
-end architecture
+end architecture;
 
 -------------------------------------------------------
 library IEEE;
@@ -86,28 +86,29 @@ begin
 
     process
     begin
+        rst_tb <= '1'; -- set the initial state to A 
         clk_tb <= '1';
-        rst_tb <= '1';
-        wait 10ns;
-        clk_tb <= '0'; -- set the initial state to A 
+        wait for 10 ns;
+        clk_tb <= '0';
         rst_tb <= '0';
-        wait 10ns;
+        wait for 10 ns;
 
+        s_tb <= '0';
         clk_tb <= '1';
-        s <= '0';
-        wait 10ns;
+        wait for 10 ns;
         clk_tb <= '0'; -- go to state B
-        wait 10ns;
+        wait for 10 ns;
 
         clk_tb <= '1';
-        wait 10ns;
+        wait for 10 ns;
         clk_tb <= '0'; -- go to state D
-        wait 10ns;
+        wait for 10 ns;
 
-        clk_tb <= '1';
         rst_tb <= '1';
-        wait 10ns;
+        clk_tb <= '1';
+        wait for 10 ns;
         clk_tb <= '0'; -- go back to A 
         rst_tb <= '0';
         wait;
+    end process;
 end architecture;

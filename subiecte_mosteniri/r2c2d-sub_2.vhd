@@ -3,7 +3,7 @@ library IEEE;
 
 
 entity as5 is
-    port(i, rst: in std_logic;
+    port(i, clk, rst: in std_logic;
         z: out std_logic);
 end entity;
 
@@ -16,7 +16,7 @@ begin
     register_process: process(clk)
     begin
         if rising_edge(clk) then
-            if reset = '0' then
+            if rst = '0' then
                 current_state <= e;
                 z <= '0';   -- make sure u reset the output too
             else
@@ -41,7 +41,7 @@ begin
             when c =>
                 if i = '0' then
                     next_state <= d;
-                    z = '0';
+                    z <= '0';
                 elsif i = '1' then
                     next_state <= a;
                     z <= '1';
@@ -60,7 +60,7 @@ begin
                     z <= '0';
                 end if;
         end case;
-    end process
+    end process;
 end architecture;
 
 -------------------------------------------------
@@ -74,7 +74,7 @@ end entity;
 
 architecture arc_tb_as5 of tb_as5 is
     component as5 is
-        port(i, rst: in std_logic;
+        port(i, rst, clk: in std_logic;
             z: out std_logic);
     end component;
 
@@ -82,31 +82,58 @@ architecture arc_tb_as5 of tb_as5 is
 begin
     automat: as5 port map(clk => clk_tb, rst => rst_tb, i => i_tb, z => z_tb);
 
+    -- clock_process: process
+    -- begin
+    --     clk_tb <= '1';
+    --     wait for 1ns;
+    --     clk_tb <= '0';
+    --     wait for 1ns;
+    -- end process;
+
+    -- state_change_process: process
+    -- begin
+    --     rst_tb <= '0'; -- E
+    --     wait for 1ns;
+    --     rst_tb <= '1';
+    --     i_tb <= '1';
+    --     wait for 1ns;
+
+    --     wait for 1ns; -- B
+    --     wait for 1ns;
+        
+    --     wait for 1ns; -- C
+    --     wait for 1ns;
+
+    --     rst_tb <= '0'; -- E
+    --     wait;
+    -- end process;
+
     process
     begin
         clk_tb <= '1';
         rst_tb <= '0'; -- reset to E
-        wait 2ns;
+        wait for 1ns;
         clk_tb <= '0';
         rst_tb <= '1';
-        wait 2ns;
+        wait for 0.5ns;
+        i_tb <= '1';
+        wait for 0.5ns;
 
-        clk_tb <= '1';
-        i <= '1';      -- go to B
-        wait 2ns;
+        clk_tb <= '1'; -- go to B
+        wait for 1ns;
         clk_tb <= '0';
-        wait 2ns;
+        wait for 1ns;
 
         clk_tb <= '1'; -- go C
-        wait 2ns;
+        wait for 1ns;
         clk_tb <= '0';
-        wait 2ns;
+        wait for 1ns;
 
         clk_tb <= '1';
         rst_tb <= '0'; -- go to E
-        wait 2ns;
+        wait for 1ns;
         clk_tb <= '0';
         rst_tb <= '1';
         wait;          -- stop
     end process;
-end architecture
+end architecture;
