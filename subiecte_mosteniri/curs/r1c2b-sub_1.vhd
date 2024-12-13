@@ -15,9 +15,9 @@ begin
     begin
         if falling_edge(clk) then
             if rst = '0' then
-                output <= "00000000"; -- atribuire => 8 bistabile
+                output <= "00000000"; -- 8 bistabile
             else
-                output <= "00000000";
+                output <= d;
             end if;
         end if;
     end process;
@@ -37,7 +37,7 @@ end entity;
 
 architecture arc_mux of mux is
 begin
-    output <= i(0) when sel = "000" else -- atribuit => 1 bistabil
+    output <= i(0) when sel = "000" else -- 1 bistabil
             i(1) when sel = "001" else
             i(2) when sel = "010" else
             i(3) when sel = "011" else
@@ -63,7 +63,7 @@ begin
     process(clk)
     begin
         if rising_edge(clk) then
-            q <= d; -- atribuit => 1 bistabil
+            q <= d; -- 1 bistabil
         end if;
     end process;
 end architecture;

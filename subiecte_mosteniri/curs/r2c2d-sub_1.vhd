@@ -10,18 +10,18 @@ end entity;
 
 
 architecture arc_nr of nr is
+    signal contor: std_logic_vector(3 downto 0) := "0000";
 begin
     process(clk, r)
-        variable contor: std_logic_vector(3 downto 0) := "0000";
     begin
         if r = '1' then
-            contor := "0000";
+            contor <= "0000"; -- 4 bistabile
         elsif falling_edge(clk) then
-            contor := contor + '1';
+            contor <= contor + '1';
         end if;
-
-        output <= contor;
     end process;
+    
+    output <= contor;
 end architecture;
 
 ------------------------------------------------------------------
@@ -37,16 +37,13 @@ end entity;
 
 
 architecture arc_reg of reg is
-    signal data: std_logic_vector(3 downto 0) := "0000";
 begin
     process(clk)
     begin
         if rising_edge(clk) then
-            data <= d;
+            output <= d; -- 4 bistabile
         end if;
     end process;
-
-    output <= data;
 end architecture;
 
 ----------------------------------------------------------------
@@ -65,13 +62,14 @@ begin
     process(x, y)
     begin
         if x = y then
-            eq <= '1';
+            eq <= '1'; -- 1 bistabil
         else
             eq <= '0';
         end if;
     end process;
 end architecture;
 
+-- total: 9 bistabile
 --------------------------------------------------------------
 library IEEE;
     use IEEE.std_logic_1164.all;
@@ -107,5 +105,5 @@ begin
     numarator: nr port map(clk => s(4), r => comp_out, output => nr_out);
     comparator: comp port map(x => reg_out, y => nr_out, eq => comp_out);
 
-    z <= comp_out;
+    z <= comp_out; -- 1 bistabil ?
 end architecture;

@@ -22,8 +22,8 @@ begin
     begin
         if falling_edge(clk) then
             if reset = '0' then
-                value <= 210b;
-                current_state <= state_1;
+                value <= 210b; -- 8 bistabile
+                current_state <= state_1; -- 2 bistabile
             else
                 case current_state is
                     when state_1 =>
@@ -36,7 +36,7 @@ begin
 
                     when state_2 =>
                         if timespan < 100b then
-                            timespan <= timespan + '1';
+                            timespan <= timespan + '1'; --- 7 bistabile
                         else
                             timespan <= "0000000";
                             value <= "01101110";
@@ -53,53 +53,16 @@ begin
             end if;
         end if;
 
-        dv <= value;
         if nivel = value then
             if current_state = state_1 then
-                pwm <= '1';
+                pwm <= '1'; -- 1 bistabil
             elsif current_state = state_3 then
                 pwm <= '0';
             end if;
         end if;
     end process;
 
-    process(clk, reset)
-    begin
-        if falling_edge(clk) then
-            if reset = '0' then
-                pwm <= '0';
-                value <= 210b;
-                current_state <= state_1;
-            else
-                case current_state is
-                    when state_1 =>
-                        value <= value - '1';
-                        if value = nivel then
-                            pwm <= '1';
-                        elsif value = 10b then
-                            value <= 60b;
-                            current_state <= state_2;
-                        end if;
-
-                    when state_2 =>
-                        timespan <= timespan + '1';
-                        if timespan = 100b then
-                            timespan <= "0000000";
-                            value <= "01101110";
-                            current_state <= state_3;
-                        end if;
-
-                    when state_3 =>
-                        value <= value + '1';
-                        if value = nivel then
-                            pwm <= '0';
-                        elsif value = 210b then
-                            current_state <= state_1;
-                        end if;
-                end case;
-            end if;
-        end if;
-
-        dv <= value;
-    end process;
+    dv <= value;
 end architecture;
+
+-- total: 11 bistabile

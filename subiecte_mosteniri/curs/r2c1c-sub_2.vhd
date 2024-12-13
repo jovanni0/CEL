@@ -16,8 +16,7 @@ begin
     register_process: process(clk)
     begin
         if rst = '0' then
-            current_state <= n3; -- 1*3 bistabile
-            z <= '0';            -- 1 bistabil
+            current_state <= n3; -- 3 bistabile
         elsif falling_edge(clk) then
             current_state <= next_state;
         end if;
@@ -28,8 +27,8 @@ begin
         case current_state is
             when n1 =>
                 if a = '0' then
-                    next_state <= n2; -- 1*3 bistabile
-                    z <= '1';         -- 1 bistabil ?
+                    next_state <= n2; -- 3 bistabile
+                    z <= '1'; -- 1 bistabil
                 elsif a = '1' then
                     next_state <= n4;
                     z <= '1';

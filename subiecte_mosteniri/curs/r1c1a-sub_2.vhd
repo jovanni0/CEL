@@ -16,7 +16,6 @@ begin
     begin
         if rst = '1' then
             current_state <= a; -- 3 bistabile
-            m <= '0';           -- 1 bistabil
         elsif falling_edge(clk) then
             current_state <= next_state;
         end if;
@@ -65,7 +64,7 @@ begin
     end process;
 end architecture;
 
--- total: 8 bistabile
+-- total: 7 bistabile
 -------------------------------------------------------
 library IEEE;
     use IEEE.std_logic_1164.all;

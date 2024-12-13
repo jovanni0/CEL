@@ -22,9 +22,9 @@ begin
     begin
         if falling_edge(clk) then
             if rst = '1' then
-                value <= 350b; -- 1*9 bistabile
-                timespan <= 0b; -- 1*7 bistabile
-                current_state <= state_1; -- 1*2 bistabile
+                value <= 350b; -- 9 bistabile
+                timespan <= 0b; -- 7 bistabile
+                current_state <= state_1; -- 2 bistabile
                 mod <= '0'; -- 1 bistabil
             else
                 case current_state is
@@ -52,8 +52,9 @@ begin
                         end if;
                 end case;
             end if;
-            var <= value; -- 1*9 bistabile
         end if;
     end process;
+
+    var <= value;
 end architecture;
--- total: 28 bistabile
+-- total: 19 bistabile

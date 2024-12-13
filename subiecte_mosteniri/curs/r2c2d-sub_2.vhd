@@ -17,8 +17,7 @@ begin
     begin
         if rising_edge(clk) then
             if rst = '0' then
-                current_state <= e;
-                z <= '0';   -- make sure u reset the output too
+                current_state <= e; -- 3 bistabile
             else
                 current_state <= next_state;
             end if;
@@ -30,8 +29,8 @@ begin
         case current_state is
             when a =>
                 if i = '1' then
-                    next_state <= b;
-                    z <= '0';
+                    next_state <= b; -- 3 bistabile
+                    z <= '0'; -- 1 bistabil
                 end if;
             when b =>
                 if i = '1' then
@@ -63,6 +62,7 @@ begin
     end process;
 end architecture;
 
+-- total: 7 bistabile
 -------------------------------------------------
 library IEEE;
     use IEEE.std_logic_1164.all;
@@ -81,32 +81,6 @@ architecture arc_tb_as5 of tb_as5 is
     signal clk_tb, rst_tb, i_tb, z_tb: std_logic;
 begin
     automat: as5 port map(clk => clk_tb, rst => rst_tb, i => i_tb, z => z_tb);
-
-    -- clock_process: process
-    -- begin
-    --     clk_tb <= '1';
-    --     wait for 1ns;
-    --     clk_tb <= '0';
-    --     wait for 1ns;
-    -- end process;
-
-    -- state_change_process: process
-    -- begin
-    --     rst_tb <= '0'; -- E
-    --     wait for 1ns;
-    --     rst_tb <= '1';
-    --     i_tb <= '1';
-    --     wait for 1ns;
-
-    --     wait for 1ns; -- B
-    --     wait for 1ns;
-        
-    --     wait for 1ns; -- C
-    --     wait for 1ns;
-
-    --     rst_tb <= '0'; -- E
-    --     wait;
-    -- end process;
 
     process
     begin

@@ -16,10 +16,9 @@ begin
     register_process: process(clk, reset)
     begin
         if reset = '1' then
-            current_state <= s2;
-            y <= '1'; -- 1 bistabil
+            current_state <= s2; -- 3 bistabile
         elsif falling_edge(clk) then
-            current_state <= next_state; -- 3 bistabil
+            current_state <= next_state;
         end if;
     end process;
 
@@ -29,7 +28,7 @@ begin
             when s1 =>
                 if x = '0' then
                     next_state <= s2; -- 3 bistabil
-                    y <= '1';
+                    y <= '1'; -- 1 bistabil
                 elsif x = '1' then
                     next_state <= s4;
                     y <= '1';

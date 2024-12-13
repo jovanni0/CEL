@@ -16,7 +16,7 @@ begin
     begin
         if rising_edge(clk) then
             if rst = '1' then
-                value <= "0000"; -- 1*4 bistabile
+                value <= "0000"; -- 4 bistabile
             else
                 value <= value + '1';
                 if value = 10b then
@@ -24,12 +24,11 @@ begin
                 end if;
             end if;
         end if;
-
-        output <= value; -- 1*4 bistabile
     end process;
+
+    output <= value;
 end architecture;
 
--- total: 8 bistabile
 ----------------------------------------------------------------
 library IEEE;
     use IEEE.std_logic_1164.all;
@@ -81,6 +80,7 @@ begin
          d(3) when sel = "11" else '0';
 end architecture;
 
+-- total: 21 bistabile
 ---------------------------------------------------------------------------
 library IEEE;
     use IEEE.std_logic_1164.all;
@@ -109,12 +109,10 @@ architecture arc_fcn of fcn is
             q: out std_logic);
     end component;
 
-    signal nr10_out: std_logic_vector(3 downto 0); -- 4 bistabile
-    signal dec_out: std_logic_vector(15 downto 0); -- 16 bistabile
+    signal nr10_out: std_logic_vector(3 downto 0);
+    signal dec_out: std_logic_vector(15 downto 0);
 begin
     numarator: nr10 port map(clk => a(1), rst => a(2), output => nr10_out);
     decodificator: dec port map(i => nr10_out, d => dec_out);
     multiplexor: mux port map(d => dec_out(3 downto 0), sel => a(4 downto 2), q => b);
 end architecture;
-
--- total: 45 bistabile

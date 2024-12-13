@@ -16,14 +16,14 @@ begin
     begin
         if rising_edge(clk) then
             if reset = '1' then
-                count <= "00000000";
+                count <= "00000000"; -- 8 bistabile
             else
                 count <= count + '1';
             end if;
-
-            output <= count;
         end if;
     end process;
+
+    output <= count;
 end architecture;
 
 ----------------------------------------------------------------------
@@ -42,7 +42,7 @@ begin
     process(a, b)
     begin
         if a = b then
-            eq <= '1';
+            eq <= '1'; -- 1 bistabil
         else
             eq <= '0';
         end if;
@@ -66,15 +66,15 @@ begin
     process(r, s)
     begin
         if r = '0' and s = '1' then
-            state <= '1';
+            state <= '1'; -- 1 bistabil
         elsif r = '1' and s = '0' then
             state <= '0';
         elsif r = '1' and s = '1' then
             state <= 'X';
         end if;
-        
-        q <= state;
     end process;
+
+    q <= state;
 end architecture;
 
 ----------------------------------------------------------------
@@ -92,10 +92,11 @@ architecture arc_sn of sn is
 begin
     process(c)
     begin
-        d <= not (c(0) or c(1) or c(2) or c(3) or c(4) or c(5) or c(6) or c(7));
+        d <= not (c(0) or c(1) or c(2) or c(3) or c(4) or c(5) or c(6) or c(7)); -- 1 bistabil
     end process;
 end architecture;
 
+-- total: 11 bistabile
 ----------------------------------------------------------------
 library IEEE;
     use IEEE.std_logic_1164.all;
